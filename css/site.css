@@ -236,7 +236,7 @@ section { padding: 110px 0; position: relative; }
   gap: 24px;
 }
 .nav-brand { display: flex; align-items: center; gap: 12px; }
-.nav-logo { width: 38px; height: 38px; border-radius: 9px; display: block; }
+.nav-logo { height: 38px; width: auto; display: block; }
 .nav-brand-name {
   font-family: var(--font-display);
   font-size: 1.15rem;
@@ -262,40 +262,6 @@ section { padding: 110px 0; position: relative; }
   transition: color 0.2s;
 }
 .nav-link:hover, .nav-link.active { color: var(--text); }
-.nav-item.has-dropdown:hover .dropdown,
-.nav-item.has-dropdown:focus-within .dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
-.nav-caret { width: 9px; height: 9px; opacity: 0.6; transition: transform 0.2s; }
-.nav-item.has-dropdown:hover .nav-caret { transform: rotate(180deg); }
-
-.dropdown {
-  position: absolute;
-  top: calc(100% + 10px);
-  left: 0;
-  min-width: 300px;
-  background: var(--bg-elevated);
-  border: 1px solid var(--border-soft);
-  border-radius: var(--radius-sm);
-  box-shadow: var(--shadow-lg);
-  padding: 10px;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(8px);
-  transition: opacity 0.2s var(--ease), transform 0.2s var(--ease), visibility 0.2s;
-}
-.dropdown-item {
-  display: block;
-  padding: 11px 14px;
-  border-radius: 8px;
-  transition: background 0.15s;
-}
-.dropdown-item:hover { background: rgba(255,255,255,0.04); }
-.dropdown-item-title { font-size: 0.88rem; color: var(--text); margin-bottom: 2px; }
-.dropdown-item-desc { font-size: 0.76rem; color: var(--muted-dim); }
-.dropdown-foot {
-  border-top: 1px solid var(--border-soft);
-  margin-top: 6px;
-  padding-top: 10px;
-}
 
 .nav-right { display: flex; align-items: center; gap: 8px; }
 .nav-cta { display: inline-flex; }
@@ -318,19 +284,11 @@ section { padding: 110px 0; position: relative; }
 }
 .mobile-menu.open { display: block; }
 .mobile-menu-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; }
-.mobile-group { margin-bottom: 8px; }
 .mobile-link {
   display: block;
   padding: 16px 4px;
   font-size: 1.05rem;
   color: var(--text);
-  border-bottom: 1px solid var(--border-soft);
-}
-.mobile-sublink {
-  display: block;
-  padding: 12px 4px 12px 16px;
-  font-size: 0.92rem;
-  color: var(--muted);
   border-bottom: 1px solid var(--border-soft);
 }
 .mobile-close { background: none; border: none; color: var(--text); width: 36px; height: 36px; cursor: pointer; }
@@ -369,6 +327,26 @@ section { padding: 110px 0; position: relative; }
   filter: blur(10px);
 }
 .hero .container { position: relative; z-index: 2; }
+
+/* Background video treatment — shared by any section given .hero-with-video */
+.hero-with-video .hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+}
+.hero-with-video .hero-video-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(10,11,13,0.88) 0%, rgba(10,11,13,0.78) 45%, rgba(10,11,13,0.92) 100%);
+}
+.hero-with-video .hero-glow { z-index: 1; opacity: 0.6; }
 .hero-headline {
   font-family: var(--font-display);
   font-weight: 700;
@@ -392,6 +370,7 @@ section { padding: 110px 0; position: relative; }
 /* Small page hero (service/industry pages) */
 .page-hero { padding: 64px 0 80px; position: relative; overflow: hidden; }
 .page-hero .hero-glow { height: 420px; }
+.page-hero .container { position: relative; z-index: 2; }
 .page-hero-title {
   font-family: var(--font-display);
   font-weight: 700;
@@ -524,6 +503,27 @@ section { padding: 110px 0; position: relative; }
 }
 .proof-note strong { color: var(--text); }
 
+/* ─── FAQ accordion ─── */
+.faq-list { display: flex; flex-direction: column; gap: 1px; background: var(--border-soft); border: 1px solid var(--border-soft); border-radius: var(--radius); overflow: hidden; margin-top: 8px; }
+.faq-item { background: var(--bg-card); }
+.faq-item summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 26px 30px;
+  font-size: 1.02rem;
+  font-weight: 500;
+  color: var(--text);
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary svg { width: 18px; height: 18px; color: var(--gold); flex-shrink: 0; transition: transform 0.3s var(--ease); }
+.faq-item[open] summary svg { transform: rotate(180deg); }
+.faq-a { padding: 0 30px 26px; max-width: 720px; }
+.faq-a p { color: var(--muted); font-size: 0.92rem; line-height: 1.75; }
+
 /* ─── Benefits list (checkmarks) ─── */
 .check-list li {
   display: flex;
@@ -596,6 +596,7 @@ section { padding: 110px 0; position: relative; }
 .footer-top { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 60px; }
 .footer-brand { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
 .footer-brand-name { font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; }
+.footer-mantra { font-family: var(--font-display); font-style: italic; font-size: 1.05rem; color: var(--gold-light); margin-bottom: 12px; }
 .footer-desc { color: var(--muted); font-size: 0.9rem; line-height: 1.8; max-width: 320px; margin-bottom: 20px; }
 .footer-heading { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 18px; }
 .footer-links li { margin-bottom: 12px; }
